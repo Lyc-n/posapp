@@ -2,20 +2,57 @@
 @import 'uniwind';
 
 /* Semantic design tokens — keep in sync with src/constants/theme.ts (Colors) */
-@theme {
-  --color-background: #ffffff;
-  --color-background-element: #f0f0f3;
-  --color-background-selected: #e0e1e6;
-  --color-text: #000000;
-  --color-text-secondary: #60646c;
+@theme {    
+    /* Spacing */
+    --spacing-half: 2px;
+    --spacing-one: 4px;
+    --spacing-two: 8px;
+    --spacing-three: 16px;
+    --spacing-four: 24px;
+    --spacing-five: 32px;
+    --spacing-six: 64px;
+
+    /* Max Content Width */
+    --container-content: 800px;
+
+    /* Inset Padding untuk Tab Bar */
+    --spacing-tab-inset: 80px;
+    --spacing-tab-inset-ios: 50px;
+
+    /* Font Families */
+    --font-sans: system-ui, normal;
+    --font-serif: ui-serif, serif;
+    --font-rounded: ui-rounded, normal;
+    --font-mono: ui-monospace, monospace;
+
+    /* Mapping Warna ke Variabel CSS Dinamis */
+    --color-theme-text: var(--color-text);
+    --color-theme-bg: var(--color-bg);
+    --color-theme-element: var(--color-element);
+    --color-theme-selected: var(--color-selected);
+    --color-theme-text-secondary: var(--color-text-secondary);
 }
 
 :root {
-  --font-display:
+    --color-background: #ffffff;
+    --color-background-element: #f0f0f3;
+    --color-background-selected: #e0e1e6;
+    --color-text: #000000;
+    --color-text-secondary: #60646c;
+    
+    --font-display:
     Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
     Segoe UI Symbol, Noto Color Emoji;
-  --font-mono:
+    --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+    --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
+    --font-serif: Georgia, 'Times New Roman', serif;
+}
+
+.dark {
+  --color-text: #ffffff;
+  --color-bg: #000000;
+  --color-element: #212225;
+  --color-selected: #2E3135;
+  --color-text-secondary: #B0B4BA;
 }
