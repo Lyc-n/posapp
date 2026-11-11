@@ -1,41 +1,67 @@
-This is an Expo/React Native mobile application. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
+# posapp monorepo
 
-## Expo has changed — do not trust your training data
+Monorepo berisi aplikasi mobile Expo dan web Vite. Pemisahan platform adalah aturan utama.
 
-Expo ships breaking changes every SDK release. APIs you remember are likely renamed, moved, or removed. Before writing any code that touches an Expo, EAS, or React Native API:
+## Struktur
 
-1. Read the major version of the `expo` package in `package.json`.
-2. Fetch the matching versioned docs: `https://docs.expo.dev/versions/v<major>.0.0/`
-3. For anything else, fetch https://docs.expo.dev/llms.txt — an index of all Expo docs with corrections to common LLM misconceptions. Follow its links to the specific page you need; never answer from memory.
+- `apps/mobile` — Expo SDK 58, target **iOS dan Android saja**.
+- `apps/web` — Vite + React 19 + React Router + Tailwind v4, SPA.
+- `packages/shared` — `@posapp/shared`: token desain, tipe domain, formatter, API client. Tanpa UI.
+
+## Aturan pemisahan
+
+- Jangan import antar `apps/*`. Pakai `@posapp/shared`.
+- `apps/mobile` tidak boleh memakai `react-native-web`, `react-dom`, file `.web.tsx`, atau komponen web-only.
+- `apps/web` tidak boleh memakai `react-native` atau modul Expo.
+- Komponen UI tetap di app masing-masing. Hanya token, tipe, util, dan API client yang dibagi.
+- Token desain hanya di `packages/shared/src/theme/tokens.css`. Jangan duplikasi nilai warna/spacing.
+- Asset mobile di `apps/mobile/assets`; asset web di `apps/web/public`.
 
 ## Commands
 
-Use `bunx` instead of `npx` if the project uses bun (`bun.lock` present).
+Jalankan dari root repo.
 
 ```bash
-npx expo install <package>  # ALWAYS use instead of npm/yarn/pnpm/bun add — resolves SDK-compatible versions
-npx expo start              # start the dev server
-npx expo lint               # lint
-npx tsc --noEmit            # typecheck
-npx expo-doctor             # diagnose dependency and config issues
-npx expo install --fix      # fix incompatible package versions
+npm install
+npm run dev:mobile
+npm run dev:web
+npm run lint
+npm run typecheck
+npm run build:web
 ```
 
-Run lint and typecheck before declaring any task done.
+Expo-specific:
 
-## Navigation & Routing
+```bash
+cd apps/mobile
+npx expo install <package>   # selalu ini, bukan npm install
+npx expo start -c            # clear Metro cache
+npx expo-doctor
+```
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
-- Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
-- Docs: https://docs.expo.dev/router/introduction.md
+`expo-router` juga terpasang di root `devDependencies` agar CLI typed-routes bisa me-resolve package hasil hoisting npm. Jaga versinya sama dengan `apps/mobile`.
 
-## Building with EAS
+## Expo: jangan percaya training data
 
-Use EAS to build, sign, and submit the app in the cloud (`eas build`, `eas submit`) and to ship over-the-air updates (`eas update`) — no local Xcode or Android Studio required. Run EAS CLI as `bunx eas-cli <command>` in Bun projects, or `npx eas-cli@latest <command>` otherwise; substitute that for bare `eas` in docs examples.
-Docs: https://docs.expo.dev/eas/index.md
+Expo merilis breaking changes tiap SDK. Sebelum menulis kode yang menyentuh API Expo/EAS/React Native:
 
-## Rules
+1. Baca major version `expo` di `apps/mobile/package.json`.
+2. Buka docs versi tersebut: `https://docs.expo.dev/versions/v<major>.0.0/`.
+3. Untuk topik lain, mulai dari https://docs.expo.dev/llms.txt.
 
-- If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
-- Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
-- Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+## Navigation & routing
+
+- Mobile memakai Expo Router. Route di `apps/mobile/src/app/`.
+- Web memakai React Router. Route di `apps/web/src/router.tsx`.
+- Jangan menambahkan route web ke app mobile, atau sebaliknya.
+
+## Styling
+
+- Mobile: Tailwind via uniwind (`apps/mobile/src/global.css`).
+- Web: Tailwind v4 via `@tailwindcss/vite` (`apps/web/src/styles/global.css`).
+- Keduanya meng-import token yang sama dari `@posapp/shared/theme/tokens.css`.
+
+## Build & deploy
+
+- Mobile dibuild lewat EAS (`eas build`, `eas update`). Jalankan `bunx eas-cli` atau `npx eas-cli@latest`.
+- Web dibuild dengan `npm run build:web` (output `apps/web/dist`).
