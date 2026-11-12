@@ -12,6 +12,7 @@ const navItems: NavItem[] = [
   { to: '/', label: 'Home', end: true },
   { to: '/explore', label: 'Explore' },
   { to: '/test', label: 'Test' },
+  { to: '/coba', label: 'Coba' },
 ];
 
 function navLinkClassName({ isActive }: { isActive: boolean }) {
@@ -26,10 +27,11 @@ function navLinkClassName({ isActive }: { isActive: boolean }) {
 export function AppShell() {
   return (
     <div className="min-h-screen bg-theme-bg text-theme-text">
-      <div className="mx-auto flex min-h-screen w-full max-w-[1200px]">
+      <div className="mx-auto flex min-h-screen w-full">
+        {/* Desktop Web */}
         <aside className="hidden w-60 shrink-0 flex-col border-r border-theme-selected bg-theme-element p-four md:flex">
           <div className="mb-six">
-            <p className="font-mono text-lg font-semibold">posapp</p>
+            <p className="font-mono text-2xl italic font-bold">Posa<span className='text-red-600'>pp</span></p>
             <p className="text-xs text-theme-text-secondary">web console</p>
           </div>
 
@@ -51,10 +53,11 @@ export function AppShell() {
           </div>
         </aside>
 
+        {/* Mobile Web */}
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="flex items-center justify-between gap-three border-b border-theme-selected px-four py-three md:hidden">
             <div>
-              <p className="font-mono text-base font-semibold">posapp</p>
+              <p className="font-mono text-lg italic font-bold">Posa<span className='text-red-600'>pp</span></p>
               <p className="text-xs text-theme-text-secondary">web console</p>
             </div>
             <ThemeToggle />
@@ -73,8 +76,9 @@ export function AppShell() {
             ))}
           </nav>
 
-          <main className="flex-1 px-four py-six md:px-six">
-            <div className="mx-auto w-full max-w-content">
+          {/* Content */}
+          <main className="flex-1">
+            <div className="mx-auto w-full">
               <Outlet />
             </div>
           </main>

@@ -33,6 +33,7 @@
   --color-theme-element: var(--color-element);
   --color-theme-selected: var(--color-selected);
   --color-theme-text-secondary: var(--color-text-secondary);
+  --color-theme-accent: var(--color-text-accent);
 
   /* Aliases used by existing screens (bg-background, etc.) */
   --color-background: var(--color-bg);
@@ -46,6 +47,7 @@
   --color-selected: #e0e1e6;
   --color-text: #000000;
   --color-text-secondary: #60646c;
+  --color-text-accent: #ff5252;
 }
 
 .dark {
@@ -54,4 +56,5 @@
   --color-selected: #2e3135;
   --color-text: #ffffff;
   --color-text-secondary: #b0b4ba;
+  --color-text-accent: #ff0000;
 }
